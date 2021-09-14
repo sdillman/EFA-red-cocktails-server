@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 // const db = require("../db");
 
-const DefineCocktail = (sequelize) => {
+const Cocktail = (sequelize) => {
     return sequelize.define("Cocktail", {
         user_id: {
             type: DataTypes.INTEGER,
@@ -22,4 +22,4 @@ const DefineCocktail = (sequelize) => {
     })
 }
 
-module.exports = { DefineCocktail }
+module.exports = { Cocktail }

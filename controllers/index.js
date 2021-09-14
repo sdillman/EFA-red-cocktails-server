@@ -4,5 +4,7 @@
 module.exports = {
     userController: require("./userController"),
     cocktailController: require("./cocktailController"),
-    commentController: require("./commentController")
+    commentController: require("./commentController"),
+    roleController: require("./roleController"),
+    permissionController: require("./permissionController")
 };
