@@ -1,4 +1,4 @@
-const UserModel = require("./User");
+const { UserModel } = require("./User");
 const CocktailModel = require("./Cocktail");
 const CommentModel = require("./Comment");
 const RoleModel = require("./Role");
@@ -7,17 +7,17 @@ const RolePermissionModel = require("./Role_Permission");
 
 
 
-User.hasMany(Comment, { onDelete: "CASCADE"})
-Comment.belongsTo(User)
+// UserModel.hasMany(CommentModel, { onDelete: "CASCADE"})
+// CommentModel.belongsTo(UserModel)
 
-User.hasMany(Cocktail, { onDelete: "CASCADE"})
-Cocktail.belongsTo(User)
+// UserModel.hasMany(CocktailModel, { onDelete: "CASCADE"})
+// CocktailModel.belongsTo(UserModel)
 
-User.hasOne(Role, {})
-Role.belongsTo(User)
+// UserModel.hasOne(RoleModel, {})
+// RoleModel.belongsTo(UserModel)
 
-Role.belongsToMany(Permission, { through: "Role_Permission"})
-Permission.belongsToMany(Role, { through: "Role_Permission"})
+// RoleModel.belongsToMany(PermissionModel, { through: "Role_Permission"})
+// PermissionModel.belongsToMany(RoleModel, { through: "Role_Permission"})
 
 
 

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 // const db = require("../db");
 
-const User = (sequelize) => {
+const UserModel = (sequelize) => {
     return sequelize.define("User", {
         email: {
             type: DataTypes.STRING(100),
@@ -29,4 +29,4 @@ const User = (sequelize) => {
 // Cocktail.belongsToMany(User, { through: "Users_Cocktails" });
 // User.belongsToMany(Cocktail, { through: "Users_Cocktails" });
 
-module.exports = { User }
+module.exports = { UserModel }
