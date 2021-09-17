@@ -2,9 +2,8 @@
 
 let express = require('express')
 let router = express.Router()
-const { sequelize } = require('../db')
-
-const UserModel = require('../db')
+const { User, Comment, Cocktail } = require('../models')
+// const { sequelize } = require('../db')
 
 router.get("", (req,res) => {
     res.send("Hello World!")
@@ -16,6 +15,14 @@ router.post("/signup", (req,res) => {
 
 router.post("/login", (req,res) => {
     res.send("login")
+})
+
+router.post("/cocktail", (req,res) => {
+    res.send("cocktail")
+})
+
+router.post("/comment", (req,res) => {
+    res.send("comment")
 })
 
 // let my_user = await User.create({
@@ -43,4 +50,29 @@ router.post("/login", (req,res) => {
 
 module.exports = router
 
-// from Justin's example - tests to verify db connection  //
+// from Justin's auth.js  //
+// let express = require('express')
+// let router = express.Router()
+// const { User } = require('../models')
+
+// router.post("/create/:name", async (req, res) => {
+//     let message 
+//     console.log(User)
+//     try {
+//         const user = await User.create({
+//             username: req.params.name
+//         })
+//         message = {
+//             msg:'User Created', 
+//             user
+//         }
+//     } catch (err){
+//         console.log(err)
+//         message = {
+//             msg:'Failed to Create User'
+//         }
+//     }
+//     res.json(message)
+// })
+
+// module.exports = router

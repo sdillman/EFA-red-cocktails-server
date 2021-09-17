@@ -1,8 +1,5 @@
-const { DataTypes } = require("sequelize");
-// const db = require("../db");
-
-const Cocktail = (sequelize) => {
-    return sequelize.define("Cocktail", {
+module.exports = (sequelize, DataTypes) => {
+    const Cocktail = sequelize.define("Cocktail", {
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -20,6 +17,5 @@ const Cocktail = (sequelize) => {
             allowNull: false
         }
     })
+        return Cocktail
 }
-
-module.exports = { Cocktail }

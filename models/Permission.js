@@ -1,14 +1,9 @@
-const { DataTypes } = require("sequelize");
-// const db = require("../db");
-
-const Permission = (sequelize) => {
-    return sequelize.define("Permission", {
+module.exports = (sequelize, DataTypes) => {
+    const Permission = sequelize.define("Permission", {
         permission: {
             type: DataTypes.STRING,
             allowNull: false
         }
     })
+    return Permission
 }
-
-
-module.exports = { Permission }

@@ -1,18 +1,15 @@
-const { DataTypes } = require("sequelize");
-// const db = require("../db");
+// Apparently unnecessary - will prune next commit if I am not wrong
 
-const Role_Permission = (sequelize) => {
-    return sequelize.define("Role_Permission", {
-        role: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        permission: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        }
-    })
-}
-
-
-module.exports = { Role_Permission }
+// module.exports = (sequelize, DataTypes) => {
+//     const Role_Permission = sequelize.define("Role_Permission", {
+//         role: {
+//             type: DataTypes.INTEGER,
+//             allowNull: false
+//         },
+//         permission: {
+//             type: DataTypes.INTEGER,
+//             allowNull: false
+//         }
+//     })
+//     return Role_Permission
+// }

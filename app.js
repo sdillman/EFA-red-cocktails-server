@@ -1,49 +1,44 @@
 require('dotenv').config()
-const { Sequelize, DataTypes } = require('sequelize');
 
 const express = require('express')
 const app = express()
-const { sequelize } = require('./db')
+const port = 3000
+// const { sequelize } = require('./db')
 
+;(async() => {
+  app.use(express.json())
 
+  const auth = require('./controllers/Auth')
+  app.use("/auth", auth)
 
-;(async () => {
-    try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-    } catch (error) {
-    console.error('Unable to connect to the database:', error);
-    }
+  const comment = require('./controllers/Comment')
+  app.use("/comment", comment)
 
-    // User(sequelize)
-    // Comment(sequelize)
-    // Cocktail(sequelize)
-    // Role(sequelize)
-    // Permission(sequelize)
-    // Role_Permission(sequelize)
-
-
-
-        // handy for finding a user
-        // let resultUser = await User.findOne({
-        //     where: {
-        //         id: 1
-        //     }
-        // })
-        // console.log(resultUser);
-
-
-    sequelize.sync();
-    // using alter instead of force during development per
-    // https://www.jaygould.co.uk/2018-06-11-sequelize-setup-sync-migrations-postgres/
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+  })
 })()
 
-const port = 3000
-const auth = require('./controllers/Auth')
-app.use("/user", auth)
+// ;(async () => {
+//     try {
+//     await sequelize.authenticate();
+//     console.log('Connection has been established successfully.');
+//     } catch (error) {
+//     console.error('Unable to connect to the database:', error);
+//     }
+
+//     sequelize.sync();
+//     // using alter instead of force during development per
+//     // https://www.jaygould.co.uk/2018-06-11-sequelize-setup-sync-migrations-postgres/
+
+//         // handy for finding a user
+//         // let resultUser = await User.findOne({
+//         //     where: {
+//         //         id: 1
+//         //     }
+//         // })
+//         // console.log(resultUser);
 
 
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+// })()
