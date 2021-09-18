@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
 )
 
 async function syncDb(sequelize, options){
-    const { force, alter} = options
+    const { force, alter } = options
     try {
         if (force)
             await sequelize.sync({force: true})

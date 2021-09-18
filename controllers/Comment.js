@@ -1,20 +1,19 @@
-//
-// to use as a template for this server refactor ONLY
-//
 let express = require('express')
 let router = express.Router()
+let validateSession = require("../middleware/validateSession");
 const { Comment, User } = require('../models')
 
-router.post("/create/", async(req, res) => {
+router.post("/create/", validateSession, async(req, res) => {
     let message;
 
     try{
-        let u = await User.findOne({ where: { id: req.body.id } })
+        let u = await User.findOne({ where: { id: req.user.id } })
+
         if (u) {
-            let comment = await Comment.create({ content: req.body.content })
+            let comment = await Comment.create({ content: req.body.comment.content, cocktail_id: req.body.comment.cocktail_id })
             await u.addComment(comment)
 
-            let { id, content } = await Comment.findOne({ where: { id: comment.id } })
+            let { id, content } =  comment;
             message = { message: "Comment made!", data: { id, content }}    
         }
         else {
@@ -22,26 +21,31 @@ router.post("/create/", async(req, res) => {
         }
 
     } catch(err) {
-        message = { message: "Comment Create Failed" }
+        message = { message: "Comment Create Failed", err }
+        console.log(err)
     }
 
     res.json(message)
 
 })
 
-router.get("/all/:id", async(req, res) => {
-    let u = await User.findOne({ where: { id: req.params.id }})
-    let comments = u ? await u.getComments() : null
-    if (comments){
-        let cleaned_comments = comments.map( p => {
-                    const { id, content } = p
-                    return { id, content }
-        })
 
-        res.send(cleaned_comments)
-    }
-    else
-        res.send(comments)
-})
+
+
+
+// router.get("/all/:id", async(req, res) => {
+//     let u = await User.findOne({ where: { id: req.params.id }})
+//     let comments = u ? await u.getComments() : null
+//     if (comments){
+//         let cleaned_comments = comments.map( p => {
+//                     const { id, content } = p
+//                     return { id, content }
+//         })
+
+//         res.send(cleaned_comments)
+//     }
+//     else
+//         res.send(comments)
+// })
 
 module.exports = router

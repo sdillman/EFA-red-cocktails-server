@@ -1,78 +1,100 @@
-// from Justin's example - tests to verify db connection  //
-
 let express = require('express')
 let router = express.Router()
-const { User, Comment, Cocktail } = require('../models')
-// const { sequelize } = require('../db')
+const { User } = require('../models')
+const { UniqueConstraintError } = require("sequelize/lib/errors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
-router.get("", (req,res) => {
-    res.send("Hello World!")
+
+router.post("/signup/", async (req, res) => {
+    let message 
+    console.log(`Entering the USER SIGNUP route`)
+    try {
+
+        const my_user = await User.create({
+            email: req.body.user.email,
+            password: bcrypt.hashSync(req.body.user.password,15),
+            role: req.body.user.role
+        })
+        console.log(my_user.toJSON());
+        
+        let token = jwt.sign({ id: User.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 12 });
+
+        res.status(201).json({
+            message: "User Created",
+            user: my_user,
+            sessionToken: token
+        });
+
+
+    } catch (err){
+
+        if (err instanceof UniqueConstraintError) {
+            res.status(409).json({
+                message: "Be more unique - email already in use. Or maybe you've signed up before - try logging in.",
+            });
+        } else {
+            res.status(500).json({
+                message: "Sorry - failed to sign up",
+                err: err
+            });
+        }
+
+        console.log(err)
+        message = {
+            msg:'Failed to Create User', 
+            err: err
+        }
+    }
+    res.json(message)
 })
 
-router.post("/signup", (req,res) => {
-    res.send("Sign up")
+router.post("/login/", async (req, res) => {
+    let message 
+    console.log(`Entering the USER LOGIN route`)
+
+    let { email, password } = req.body.user;
+
+    try {
+        const loggedInUser = await User.findOne({
+            where: {
+                email: email,
+            },
+        });
+        
+        if (loggedInUser) {
+
+            let passwordComparison = await bcrypt.compare(password, loggedInUser.password);
+            
+            if (passwordComparison) {
+                let token = jwt.sign({ id: loggedInUser.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 12 });
+                
+                res.status(200).json({
+                    user: loggedInUser,
+                    message: "Great! Let's start crafting!",
+                    sessionToken: token
+                });
+            } else {
+                res.status(401).json({
+                    message: "Fail.  Incorrect email or password."
+                })
+            }
+            } else {
+            res.status(401).json({
+                message: "Fail.  Incorrect email or password."
+            });
+            }
+    } catch (err) {
+        res.status(500).json({
+            message: "Sorry, we couldn't log you in."
+        })
+        
+        console.log(err)
+        message = {
+            msg:'Failed to Log in User', 
+            err: err
+        }
+    }
 })
-
-router.post("/login", (req,res) => {
-    res.send("login")
-})
-
-router.post("/cocktail", (req,res) => {
-    res.send("cocktail")
-})
-
-router.post("/comment", (req,res) => {
-    res.send("comment")
-})
-
-// let my_user = await User.create({
-//     email: "testy@test.com",
-//     password: "test",
-//     nick_name: "testy",
-//     role: null
-// });
-// console.log(my_user.toJSON());
-// let my_role = await Role.create({
-//     role: "user"
-// });
-// let my_permission = await Permission.create({
-//     permission: "createOwnUser"
-// });
-
-// console.log(await my_user.getRole());
-// await my_user.setRole(my_role);
-// console.log(await my_user.getRole());
-
-// console.log(await my_permission.getPermission());
-// await my_permission.setPermission(my_permission);
-// console.log(await my_permission.getPermission());
-
 
 module.exports = router
-
-// from Justin's auth.js  //
-// let express = require('express')
-// let router = express.Router()
-// const { User } = require('../models')
-
-// router.post("/create/:name", async (req, res) => {
-//     let message 
-//     console.log(User)
-//     try {
-//         const user = await User.create({
-//             username: req.params.name
-//         })
-//         message = {
-//             msg:'User Created', 
-//             user
-//         }
-//     } catch (err){
-//         console.log(err)
-//         message = {
-//             msg:'Failed to Create User'
-//         }
-//     }
-//     res.json(message)
-// })
-
-// module.exports = router
