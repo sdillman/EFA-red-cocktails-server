@@ -14,6 +14,9 @@ const port = 3000
   const comment = require('./controllers/Comment')
   app.use("/comment", comment)
 
+  const cocktail = require('./controllers/Cocktail')
+  app.use("/cocktail", cocktail)
+
   app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
   })
