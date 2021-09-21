@@ -54,7 +54,7 @@ router.get("/mine/", validateSession, async(req, res) => {
 
 // Get all of a buddy's cocktails
 
-router.get("/buddy/:id", validateSession, async(req, res) => {
+router.get("/member/:id", validateSession, async(req, res) => {
     let u = await User.findOne({ where: { id: req.params.id }})
     console.log(u);
     let cocktails = u ? await u.getCocktails() : null
@@ -78,16 +78,16 @@ router.delete("/delete/:id", validateSession, async(req, res) => {
     let message;
 
     try{
-        let u = await User.findOne({ where: { id: req.user.id } })
+        let drink = await Cocktail.findOne({ where: { id: req.params.id } })
 
-        if (u) {
+        if (drink) {
             let cocktail = await Cocktail.destroy({where: { id: req.params.id } })
-            await u.destroy(cocktail);
+            await drink.destroy(cocktail);
 
 
             message = { message: "Cocktail deleted!" }    
         } else {
-            message = { message: "Can't delete the cocktail; user does not exist", data: null }
+            message = { message: "Can't delete the cocktail; it does not exist", data: null }
         }
 
     } catch(err) {
