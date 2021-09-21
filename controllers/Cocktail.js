@@ -81,17 +81,18 @@ router.delete("/delete/:id", validateSession, async(req, res) => {
         let u = await User.findOne({ where: { id: req.user.id } })
 
         if (u) {
-            let cocktail = await Cocktail.destroy({ id: req.params.id })
-            await u.destroyCocktail(cocktail)
+            let cocktail = await Cocktail.destroy({where: { id: req.params.id } })
+            await u.destroy(cocktail);
 
-            message = { message: "Cocktail deleted!" }}    
-         else {
+
+            message = { message: "Cocktail deleted!" }    
+        } else {
             message = { message: "Can't delete the cocktail; user does not exist", data: null }
         }
 
     } catch(err) {
         message = { message: "Cocktail Delete Failed", err }
-        console.log(err)
+        console.log(err.message)
     }
 
     res.json(message)
