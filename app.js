@@ -11,6 +11,9 @@ const port = 3000
   const auth = require('./controllers/Auth')
   app.use("/auth", auth)
 
+  const user = require('./controllers/User')
+  app.use("/user", user)
+
   const comment = require('./controllers/Comment')
   app.use("/comment", comment)
 
