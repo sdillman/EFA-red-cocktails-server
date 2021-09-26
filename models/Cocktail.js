@@ -10,8 +10,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         instructions: {
-            type: DataTypes.JSON,
+            type: DataTypes.STRING,
             allowNull: false
+        },
+        ingredients: {
+            type: DataTypes.JSON,
+            allowNull: true
         }
     })
         return Cocktail
