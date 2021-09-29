@@ -1,4 +1,5 @@
 require('dotenv').config()
+const cors = require('./middleware/headers')
 
 const express = require('express')
 const app = express()
@@ -7,6 +8,7 @@ const port = 3000
 
 ;(async() => {
   app.use(express.json())
+  app.use(cors);
 
   const auth = require('./controllers/Auth')
   app.use("/auth", auth)
