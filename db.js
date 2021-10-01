@@ -10,13 +10,16 @@ const Sequelize = require('sequelize');
 // module.exports = sequelize;
 
 const sequelize = new Sequelize(
-    process.env.DB_DBNAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
+   process.env.DATABASE_URL,
     {
         host: process.env.DB_HOST,
         dialect: 'postgres',
-        ssl: process.env.DB_ENVIRONMENT === 'production'  //from 48-hr pj
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        }
     }
 )
 
