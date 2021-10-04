@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 
+// LOCAL
 // const sequelize = new Sequelize(process.env.DATABASE_URL, {
 //     dialect: 'postgres',
 //     ssl: process.env.ENVIRONMENT === 'production'
@@ -9,6 +10,8 @@ const Sequelize = require('sequelize');
 
 // module.exports = sequelize;
 
+
+// HEROKU
 const sequelize = new Sequelize(
    process.env.DATABASE_URL,
     {
@@ -37,6 +40,7 @@ async function syncDb(sequelize, options){
     }
 }
 
+sequelize.sync({force: true})
 
 module.exports = {
     sequelize,

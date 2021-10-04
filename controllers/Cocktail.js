@@ -12,7 +12,13 @@ router.post("/add/", validateSession, async(req, res) => {
         let u = await User.findOne({ where: { id: req.user.id } })
 
         if (u) {
-            let cocktail = await Cocktail.create({ cocktail_name: req.body.cocktail.cocktail_name, cocktail_img_url: req.body.cocktail.cocktail_img_url, instructions: req.body.cocktail.instructions })
+            let cocktail = await Cocktail.create({ 
+                cocktail_name: req.body.cocktail.cocktail_name,
+                cocktail_img_url: req.body.cocktail.cocktail_img_url, 
+                instructions: req.body.cocktail.instructions,
+                ingredients: req.body.cocktail.ingredients
+            });
+            // ingredients: '[ {"name": "Tequila", "measure": "2 1\/2 shots"},{"name": "Triple sec", "measure": "1 shot"}, {"name": "Lime juice", "measure": "2 oz"}, {"name": "Salt", "measure": ""}]'
             await u.addCocktail(cocktail)
 
             let { id, cocktail_name } =  cocktail;
