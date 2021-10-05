@@ -40,7 +40,7 @@ async function syncDb(sequelize, options){
     }
 }
 
-sequelize.sync({force: true})
+// sequelize.sync({force: true})
 
 module.exports = {
     sequelize,
