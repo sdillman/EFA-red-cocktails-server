@@ -18,7 +18,7 @@ router.post("/signup/", async (req, res) => {
         })
         console.log(my_user.toJSON());
         
-        let token = jwt.sign({ id: User.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 12 });
+        let token = jwt.sign({ id: my_user.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 12 });
 
         res.status(201).json({
             message: "User Created",
@@ -51,9 +51,14 @@ router.post("/signup/", async (req, res) => {
 
 router.post("/login/", async (req, res) => {
     let message 
-    console.log(`Entering the USER LOGIN route`)
-
+    console.log(`Entering the USER LOGIN route`);
+    console.log('***********************');
+    console.log("### req", req.body);
+    console.log('***********************');
     let { email, password } = req.body.user;
+
+    // const { user } = req.body;
+    // const { email, password } = user;
 
     try {
         const loggedInUser = await User.findOne({
