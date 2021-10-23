@@ -3,7 +3,11 @@ let router = express.Router()
 let validateSession = require("../middleware/validateSession");
 const { Cocktail, User } = require('../models')
 
-// app.js /cocktail
+// /cocktail
+
+/**
+ * Post a new cocktail from a logged-in user
+ */
 
 router.post("/add/", validateSession, async(req, res) => {
     let message;
@@ -38,7 +42,9 @@ router.post("/add/", validateSession, async(req, res) => {
 })
 
 
-// Get all the current user's cocktails
+/**
+ * Get all of the logged-in user's ccoktails
+ */
 
 router.get("/mine/", validateSession, async(req, res) => {
     let u = await User.findOne({ where: { id: req.user.id }})
@@ -58,7 +64,9 @@ router.get("/mine/", validateSession, async(req, res) => {
 })
 
 
-// Get all of a buddy's cocktails
+/**
+ * Get all of a user's cocktails
+ */
 
 router.get("/member/:id", validateSession, async(req, res) => {
     let u = await User.findOne({ where: { id: req.params.id }})
@@ -78,7 +86,9 @@ router.get("/member/:id", validateSession, async(req, res) => {
 })
 
 
-// Delete a cocktail
+/**
+ * Delete a cocktail
+ */
 
 router.delete("/delete/:id", validateSession, async(req, res) => {
     let message;

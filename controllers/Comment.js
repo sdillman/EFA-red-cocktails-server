@@ -3,7 +3,11 @@ let router = express.Router()
 let validateSession = require("../middleware/validateSession");
 const { Comment, User } = require('../models')
 
-// User adds a comment
+// /comment
+
+/**
+ * Post a comment by the logged-in user
+ */
 
 router.post("/create/", validateSession, async(req, res) => {
     let message;
@@ -32,10 +36,35 @@ router.post("/create/", validateSession, async(req, res) => {
 })
 
 
-// Get all the current user's comments
+/**
+ * Get logged-in user's own comments
+ */
 
 router.get("/mine/", validateSession, async(req, res) => {
     let u = await User.findOne({ where: { id: req.user.id }})
+    console.log(u);
+    let comments = u ? await u.getComments() : null
+    console.log(comments);
+    if (comments){
+        let cleaned_comments = comments.map( p => {
+                    const { id, content } = p
+                    return { id, content }
+        })
+
+        res.send(cleaned_comments)
+    }
+    else
+        res.send(comments)
+})
+
+
+
+/**
+ * Get all of a user's comments (admin function)
+ */
+
+router.get("/member/:id", validateSession, async(req, res) => {
+    let u = await User.findOne({ where: { id: req.params.id }})
     console.log(u);
     let comments = u ? await u.getComments() : null
     console.log(comments);
