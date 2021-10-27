@@ -39,8 +39,6 @@ router.post("/signup/", async (req, res) => {
                 err: err
             });
         }
-
-        console.log(err)
         message = {
             msg:'Failed to Create User', 
             err: err
@@ -50,15 +48,7 @@ router.post("/signup/", async (req, res) => {
 })
 
 router.post("/login/", async (req, res) => {
-    let message 
-    console.log(`Entering the USER LOGIN route`);
-    console.log('***********************');
-    console.log("### req", req.body);
-    console.log('***********************');
     let { email, password } = req.body.user;
-
-    // const { user } = req.body;
-    // const { email, password } = user;
 
     try {
         const loggedInUser = await User.findOne({
@@ -94,7 +84,6 @@ router.post("/login/", async (req, res) => {
             message: "Sorry, we couldn't log you in."
         })
         
-        console.log(err)
         message = {
             msg:'Failed to Log in User', 
             err: err

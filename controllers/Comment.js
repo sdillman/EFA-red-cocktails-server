@@ -28,7 +28,6 @@ router.post("/create/", validateSession, async(req, res) => {
 
     } catch(err) {
         message = { message: "Comment Create Failed", err }
-        console.log(err)
     }
 
     res.json(message)
@@ -42,9 +41,9 @@ router.post("/create/", validateSession, async(req, res) => {
 
 router.get("/mine/", validateSession, async(req, res) => {
     let u = await User.findOne({ where: { id: req.user.id }})
-    console.log(u);
+
     let comments = u ? await u.getComments() : null
-    console.log(comments);
+
     if (comments){
         let cleaned_comments = comments.map( p => {
                     const { id, content } = p
@@ -65,9 +64,9 @@ router.get("/mine/", validateSession, async(req, res) => {
 
 router.get("/member/:id", validateSession, async(req, res) => {
     let u = await User.findOne({ where: { id: req.params.id }})
-    console.log(u);
+
     let comments = u ? await u.getComments() : null
-    console.log(comments);
+
     if (comments){
         let cleaned_comments = comments.map( p => {
                     const { id, content } = p

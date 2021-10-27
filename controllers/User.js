@@ -27,7 +27,6 @@ const { User } = require('../models')
 
     } catch(err) {
         message = { message: "User Delete Failed", err }
-        console.log(err.message)
     }
 
     res.json(message)
@@ -54,7 +53,6 @@ router.delete("/delete/:id", validateSession, async(req, res) => {
 
     } catch(err) {
         message = { message: "User Delete Failed", err }
-        console.log(err.message)
     }
 
     res.json(message)
